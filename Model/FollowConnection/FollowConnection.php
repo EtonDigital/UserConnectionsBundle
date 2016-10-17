@@ -17,8 +17,9 @@ use ED\UserConnectionsBundle\Model\User\ConnectableUserInterface;
  */
 class FollowConnection implements FollowConnectionInterface
 {
+    const STATUS_PENDING  = 0;
     const STATUS_APPROVED = 1;
-    const STATUS_IGNORED  = 0;
+    const STATUS_IGNORED  = 2;
 
     /**
      * @var int
@@ -121,6 +122,7 @@ class FollowConnection implements FollowConnectionInterface
     public function setStatus($status)
     {
         if (!in_array($status, array(
+            self::STATUS_PENDING,
             self::STATUS_APPROVED,
             self::STATUS_IGNORED
         ))) {

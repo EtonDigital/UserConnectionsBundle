@@ -50,4 +50,11 @@ class FollowConnectionTest extends BaseTestCase
 
         $followConnection->setStatus(FollowConnection::STATUS_IGNORED);
     }
+
+    public function testSetPendingStatus()
+    {
+        $followConnection = new FollowConnection();
+
+        $followConnection->setStatus(FollowConnection::STATUS_PENDING);
+    }
 }
