@@ -10,6 +10,11 @@ namespace ED\UserConnectionsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class EDUserConnectionsBundle
+ *
+ * @package ED\UserConnectionsBundle
+ */
 class EDUserConnectionsBundle extends Bundle
 {
 }

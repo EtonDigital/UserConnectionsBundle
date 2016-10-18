@@ -5,12 +5,10 @@
  * Date: 10/17/16 9:46 AM
  */
 
-namespace ED\UserConnectionsBundle\Manager;
+namespace ED\UserConnectionsBundle\Model\FollowConnection;
 
 
 use ED\UserConnectionsBundle\Exception\FollowConnectionException;
-use ED\UserConnectionsBundle\Model\FollowConnection\FollowConnection;
-use ED\UserConnectionsBundle\Model\FollowConnection\FollowConnectionInterface;
 use ED\UserConnectionsBundle\Model\User\ConnectableUserInterface;
 
 /**

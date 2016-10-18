@@ -10,6 +10,11 @@ namespace ED\UserConnectionsBundle\Entity;
 
 use ED\UserConnectionsBundle\Model\FollowConnection\FollowConnection as BaseFollowConnection;
 
+/**
+ * Class FollowConnection
+ *
+ * @package ED\UserConnectionsBundle\Entity
+ */
 class FollowConnection extends BaseFollowConnection
 {
 
