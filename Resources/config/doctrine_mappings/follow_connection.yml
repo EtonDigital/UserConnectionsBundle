@@ -1,0 +1,12 @@
+ED\UserConnectionsBundle\Model\FollowConnection:
+  type: entity
+  table: ed_ucb__follow_connections
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  manyToOne:
+    targetEntity: ConnectableUser
+
+

@@ -1,2 +1,18 @@
 imports:
     - { resource:  ../Resources/config/config.yml}
+
+
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     127.0.0.1
+        port:     3306
+        dbname:   ucb
+        user:     ucb
+        password: ucb
+        charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true

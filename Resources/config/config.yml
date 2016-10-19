@@ -2,3 +2,9 @@ framework:
     secret: test
     session:
         storage_id: session.storage.mock_file
+
+
+services:
+    ed_user_connections.follow_connection_manager:
+        class: ED\UserConnectionsBundle\Model\FollowConnection\DoctrineFollowConnectionManager
+        arguments: ['@doctrine.orm.default_entity_manager']

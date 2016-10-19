@@ -21,18 +21,16 @@ interface FollowConnectionManagerInterface
     /**
      * Create new FollowConnectionInterface instace
      *
-     * @param ConnectableUserInterface|null $follower
-     * @param ConnectableUserInterface|null $followee
-     * @param int                           $status
-     * @param \DateTime|null                $createdAt
+     * @param ConnectableUserInterface $follower
+     * @param ConnectableUserInterface $followee
+     * @param int                      $status
      *
      * @return FollowConnectionInterface
      */
     public function createFollowConnection(
-        ConnectableUserInterface $follower = null,
-        ConnectableUserInterface $followee = null,
-        $status = FollowConnection::STATUS_PENDING,
-        \DateTime $createdAt = null
+        ConnectableUserInterface $follower,
+        ConnectableUserInterface $followee,
+        $status = FollowConnection::STATUS_PENDING
     );
 
     /**

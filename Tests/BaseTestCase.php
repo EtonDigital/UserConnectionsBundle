@@ -8,8 +8,8 @@
 namespace ED\UserConnectionsBundle\Tests;
 
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 
 /**
  * Class BaseTestCase
@@ -24,6 +24,11 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     protected $container;
 
     /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
      * Boot symfony app
      */
     protected function bootSymfony()
@@ -32,6 +37,8 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 
         $kernel = new \AppKernel('test', true);
         $kernel->boot();
+
         $this->container = $kernel->getContainer();
+        $this->em = $this->container->get('doctrine.orm.default_entity_manager');
     }
 }
