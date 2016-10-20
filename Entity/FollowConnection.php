@@ -9,13 +9,31 @@ namespace ED\UserConnectionsBundle\Entity;
 
 
 use ED\UserConnectionsBundle\Model\FollowConnection\FollowConnection as BaseFollowConnection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class FollowConnection
+ *
+ * @ORM\Entity(repositoryClass="ED\UserConnectionsBundle\Repository\FollowConnectionRepository")
  *
  * @package ED\UserConnectionsBundle\Entity
  */
 class FollowConnection extends BaseFollowConnection
 {
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    protected $id;
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

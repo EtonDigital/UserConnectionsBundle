@@ -8,43 +8,54 @@
 namespace ED\UserConnectionsBundle\Model\FollowConnection;
 
 
+use ED\UserConnectionsBundle\Entity\Traits\TimestampableCreatedAt;
 use ED\UserConnectionsBundle\Model\User\ConnectableUserInterface;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class FollowConnection
+ *
+ * @ORM\MappedSuperclass
  *
  * @package ED\UserConnectionsBundle\Model\FollowConnection
  */
 class FollowConnection implements FollowConnectionInterface
 {
+    use TimestampableCreatedAt;
+
     const STATUS_PENDING  = 0;
     const STATUS_APPROVED = 1;
     const STATUS_IGNORED  = 2;
 
     /**
      * @var int
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
      * @var ConnectableUserInterface
+     *
+     * @ORM\ManyToOne(targetEntity="ED\UserConnectionsBundle\Entity\ConnectableUser", inversedBy="followers")
      */
     protected $follower;
 
     /**
      * @var ConnectableUserInterface
+     *
+     * @ORM\ManyToOne(targetEntity="ED\UserConnectionsBundle\Entity\ConnectableUser", inversedBy="following")
      */
     protected $followee;
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer")
      */
-    protected $status;
-
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
+    protected $status = self::STATUS_APPROVED;
 
     /**
      * @return int
@@ -130,26 +141,6 @@ class FollowConnection implements FollowConnectionInterface
         }
 
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     *
-     * @return FollowConnectionInterface
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

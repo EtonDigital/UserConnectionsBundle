@@ -9,7 +9,7 @@ namespace ED\UserConnectionsBundle\Model\FollowConnection;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
-use ED\UserConnectionsBundle\Entity\FollowConnection;
+use ED\UserConnectionsBundle\Entity\FollowConnection as FollowConnectionEntity;
 use ED\UserConnectionsBundle\Exception\FollowConnectionException;
 use ED\UserConnectionsBundle\Model\User\ConnectableUserInterface;
 
@@ -50,7 +50,7 @@ class DoctrineFollowConnectionManager implements FollowConnectionManagerInterfac
         $status = FollowConnection::STATUS_PENDING
     )
     {
-        $followConnection = new FollowConnection();
+        $followConnection = new FollowConnectionEntity();
 
         $followConnection->setFollower($follower);
         $followConnection->setFollowee($followee);
@@ -68,7 +68,22 @@ class DoctrineFollowConnectionManager implements FollowConnectionManagerInterfac
      */
     public function saveFollowConnection(FollowConnectionInterface $followConnection)
     {
-        // TODO: Implement saveFollowConnection() method.
+        $this->objectManager->persist($followConnection);
+        $this->objectManager->flush();
+    }
+
+    /**
+     * Find FollowConnection by id
+     *
+     * @param $id
+     *
+     * @return FollowConnection
+     */
+    public function findFollowConnection($id)
+    {
+         return $this->objectManager
+            ->getRepository(FollowConnectionEntity::class)
+            ->find($id);
     }
 
     /**
@@ -83,10 +98,16 @@ class DoctrineFollowConnectionManager implements FollowConnectionManagerInterfac
     public function follow(
         ConnectableUserInterface $userToBeFollowed,
         ConnectableUserInterface $userWhoIsFollowing,
-        $status = FollowConnection::STATUS_APPROVED
+        $status = FollowConnectionEntity::STATUS_APPROVED
     )
     {
-        // TODO: Implement follow() method.
+        $followConnection = $this->createFollowConnection(
+            $userWhoIsFollowing,
+            $userToBeFollowed,
+            $status
+        );
+
+        $this->saveFollowConnection($followConnection);
     }
 
     /**
@@ -102,7 +123,15 @@ class DoctrineFollowConnectionManager implements FollowConnectionManagerInterfac
         ConnectableUserInterface $userWhoUnfollows
     )
     {
-        // TODO: Implement unfollow() method.
+        $followConnection = $this->objectManager
+            ->getRepository(FollowConnectionEntity::class)
+            ->findOneBy([
+                'follower' => $userWhoUnfollows,
+                'followee' => $userToUnfollow
+            ]);
+
+        $this->objectManager->remove($followConnection);
+        $this->objectManager->flush();
     }
 
     /**
@@ -186,7 +215,10 @@ class DoctrineFollowConnectionManager implements FollowConnectionManagerInterfac
      */
     public function getFollowers(ConnectableUserInterface $user)
     {
-        // TODO: Implement getFollowers() method.
+        return $this->objectManager
+            ->getRepository(FollowConnectionEntity::class)
+            ->getUserFollowersQuery($user)
+            ->getResult();
     }
 
     /**
@@ -198,7 +230,10 @@ class DoctrineFollowConnectionManager implements FollowConnectionManagerInterfac
      */
     public function getFollowing(ConnectableUserInterface $user)
     {
-        // TODO: Implement getFollowing() method.
+        return $this->objectManager
+            ->getRepository(FollowConnectionEntity::class)
+            ->getUserFollowingQuery($user)
+            ->getResult();
     }
 
     /**
@@ -214,7 +249,14 @@ class DoctrineFollowConnectionManager implements FollowConnectionManagerInterfac
         ConnectableUserInterface $userWhoIsFollowed
     )
     {
-        // TODO: Implement isFollowing() method.
+        $followConnection = $this->objectManager
+            ->getRepository(FollowConnectionEntity::class)
+            ->findOneBy([
+                'follower' => $userWhoFollows,
+                'followee' => $userWhoIsFollowed
+            ]);
+
+        return $followConnection ? true : false;
     }
 
     /**
